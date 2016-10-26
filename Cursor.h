@@ -13,5 +13,6 @@ class Cursor {
 		Cursor();
 		~Cursor();
 		char getch(int echo = 0);
+		char getKey();
 };
 #endif
