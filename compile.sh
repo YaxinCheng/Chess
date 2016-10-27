@@ -1,3 +1,3 @@
 #!/bin/sh
 
-g++ *.cpp
+g++ -std=c++11 *.cpp
