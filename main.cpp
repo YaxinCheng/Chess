@@ -1,14 +1,9 @@
-#include "Board.h"
-#include "Board.cpp"
-#include "Cursor.h"
-#include "Piece.h"
-#include "Pawn.h"
-#include "Knight.h"
+#include "Chess.h"
 #include <iostream>
 using namespace std;
 
 int main(void) {
-	Knight k(0, 1, true);
-	cout << k.icon();
+	auto game = Chess::getInstance();
+	game->showBoard();
 	return 0;
 }
