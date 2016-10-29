@@ -21,3 +21,15 @@ const bool Pawn::checkLegal( short x,  short y) {
 	}
 	return false;
 }
+
+const bool Pawn::promotable() {
+	if (colour == true) {
+		return y == 7;
+	} else {
+		return y == 0;
+	}
+}
+
+const string Pawn::icon() {
+	return colour ? "♙" : "♟";
+}

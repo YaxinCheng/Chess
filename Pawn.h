@@ -6,5 +6,7 @@
 struct Pawn: Piece, StraightMove {
 	Pawn( short x,  short y, bool colour);
 	const bool checkLegal( short x,  short y);
+	const bool promotable();
+	const string icon();
 };
 #endif

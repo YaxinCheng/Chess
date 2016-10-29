@@ -9,3 +9,7 @@ const bool King::checkLegal(short x, short y) {
 	}
 	return abs(x - this->x) + abs(y - this->y) == 1;
 }
+
+const string King::icon() {
+	return colour ? "♔" : "♚";
+}

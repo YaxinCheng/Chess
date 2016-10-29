@@ -8,5 +8,6 @@
 struct King: Piece, StraightMove {
 	King(short x, short y, bool colour);
 	const bool checkLegal(short x, short y);
+	const string icon();
 };
 #endif

@@ -9,3 +9,7 @@ const bool Rook::checkLegal( short x,  short y) {
 	}
 	return y >= 0 && y <= 7;
 }
+
+const string Rook::icon() {
+	return colour ? "♖" : "♜";
+}

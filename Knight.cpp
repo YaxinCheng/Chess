@@ -15,3 +15,7 @@ const bool Knight::checkLegal( short x,  short y) {
 	float ratio = (float)x_difference / (float)y_difference;
 	return ratio == 0.5 || ratio == 2;
 }
+
+const string Knight::icon() {
+	return colour ? "♘" : "♞";
+}

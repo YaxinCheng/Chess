@@ -9,3 +9,7 @@ const bool Queen::checkLegal( short x,  short y) {
 	}
 	return x >= 0 && x <= 7 && y >= 0 && y <= 7;
 }
+
+const string Queen::icon() {
+	return colour ? "♕" : "♛";
+}
