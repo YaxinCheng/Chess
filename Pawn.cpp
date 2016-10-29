@@ -1,21 +1,23 @@
 #include "Pawn.h"
 
-Pawn::Pawn(unsigned short x, unsigned short y, bool colour): Piece(x, y, colour) {
+Pawn::Pawn( short x,  short y, bool colour): Piece(x, y, colour), StraightMove() {
 }
 
-vector< tuple<unsigned short, unsigned short> > Pawn::availableMoves() {
-	vector< tuple<unsigned short, unsigned short> > moves;
-	unsigned short destination_y;
-	if (colour == true) {
-		destination_y += 1;
-	} else {
-		destination_y -= 1;
+const bool Pawn::checkLegal( short x,  short y) {
+	if (isStraight(this->x, this->y, x, y) == false ) {
+		return false;
 	}
-	moves.push_back(make_tuple(x, destination_y));
-	if (y == 1) {
-		moves.push_back(make_tuple(x, y + 2));
-	} else if (y == 6) {
-		moves.push_back(make_tuple(x, y - 2));
+	if (colour == true && y - this->y == 1) {
+		return true;
 	}
-	return moves;
+	if (colour == true && this->y == 1 && y - this->y == 2) {
+		return true;
+	}
+	if (colour == false && y - this->y == -1) {
+		return true;
+	}
+	if (colour == false && this->y == 6 && y - this->y == -2) {
+		return true;
+	}
+	return false;
 }
