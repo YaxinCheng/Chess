@@ -31,5 +31,5 @@ const bool Pawn::promotable() {
 }
 
 const string Pawn::icon() {
-	return colour ? "♙" : "♟";
+	return colour ? "♟" : "♙";
 }

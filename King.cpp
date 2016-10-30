@@ -11,5 +11,5 @@ const bool King::checkLegal(short x, short y) {
 }
 
 const string King::icon() {
-	return colour ? "♔" : "♚";
+	return colour ? "♚" : "♔" ;
 }

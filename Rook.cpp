@@ -11,5 +11,5 @@ const bool Rook::checkLegal( short x,  short y) {
 }
 
 const string Rook::icon() {
-	return colour ? "♖" : "♜";
+	return colour ? "♜" : "♖";
 }

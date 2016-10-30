@@ -17,5 +17,5 @@ const bool Knight::checkLegal( short x,  short y) {
 }
 
 const string Knight::icon() {
-	return colour ? "♘" : "♞";
+	return colour ? "♞" : "♘";
 }

@@ -11,5 +11,5 @@ const bool Bishop::checkLegal( short x,  short y) {
 }
 
 const string Bishop::icon() {
-	return colour ? "♗" : "♝";
+	return colour ? "♝" : "♗";
 }

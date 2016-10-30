@@ -36,29 +36,22 @@ T** Board<T>::operator[] (int index ) const {
 	return internalArray[index];
 }
 
-// toString method for printing
-// template <class T>
-// std::ostream& operator<<(std::ostream &stream, const Board<T> *board) {
-// 	string empty = "";
-// 	for (int i = 0; i < board.getSize(); i ++) {
-// 		for (int j = 0; j < board.getSize(); j ++) {
-// 			if (board[i][j] == NULL) {
-// 				empty += "-";
-// 			} else {
-// 				empty += board[i][j]->icon();
-// 			}
-// 			empty += "\t";
-// 		}
-// 		empty += "\n";
-// 	}
-// 	return stream << empty << std::endl;
-// }
-
 // Set elements to the board
 template <class T>
-void Board<T>::setElement(const T element, const int x, const int y) throw(int) {
-	if (internalArray[x][y] != NULL) {
+void Board<T>::setElement(T* element, const int x, const int y) throw(int) {
+	int X, Y;
+	if (x == -7 && y == -7) {
+		X = element->x;
+		Y = element->y;
+	} else {
+		X = x;
+		Y = y;
+	}
+	if (X < 0 || Y < 0) {
+		throw -2;
+	}
+	if (internalArray[X][Y] != NULL ) {
 		throw -1;
 	}
-	internalArray[x][y] = element;
+	internalArray[X][Y] = element;
 }

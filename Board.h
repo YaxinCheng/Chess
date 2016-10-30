@@ -12,6 +12,6 @@ struct Board {
 		~Board();
 		const int getSize() const;
 		T** operator[] (int index) const;
-		void setElement(const T element, const int x, const int y) throw (int);
+		void setElement(T* element, const int x = -7, const int y = -7) throw (int);
 };
 #endif
