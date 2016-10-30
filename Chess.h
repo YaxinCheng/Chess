@@ -15,9 +15,11 @@ using namespace std;
 class Chess {
 private:
 	Board<Piece> *board;
+	Cursor cursor;
 	Chess();
 public:
 	static Chess* getInstance();
 	void showBoard();
+	void start();
 };
 #endif

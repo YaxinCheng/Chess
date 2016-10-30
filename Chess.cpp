@@ -37,13 +37,40 @@ void Chess::showBoard() {
 	for (int i = 0; i < board->getSize(); i ++) {
 		for (int j = 0; j < board->getSize(); j ++) {
 			if ((*board)[j][i] == NULL) {
-				info += "-";
+				if (j == cursor.x && i == cursor.y ) {
+					info += "[-]";
+				} else {
+					info += "-";
+				}
 			} else {
-				info += (*board)[j][i]->icon();
+				if (j == cursor.x && i == cursor.y ) {
+				 	info += "[" + (*board)[j][i]->icon() + " ]";
+				} else {
+					info += (*board)[j][i]->icon();
+				}
 			}
 			info += '\t';
 		}
 		info += '\n';
 	}
 	cout << '\n' << info << endl;
+}
+
+void Chess::start() {
+	char input;
+	cursor.clearScreen();
+	do {
+		showBoard();
+		input = cursor.getKey();
+		switch (input) {
+			case 'l': cursor.x -= (cursor.x == 0 ? 0 : 1); break;
+			case 'r': cursor.x += (cursor.x == 7 ? 0 : 1); break;
+			case 'u': cursor.y -= (cursor.y == 0 ? 0 : 1); break;
+			case 'd': cursor.y += (cursor.y == 7 ? 0 : 1); break;
+		}
+		if (input != 'q') {
+			cursor.clearScreen();
+		}
+	} while (input != 'q');
+	cout << "Game Over" << endl;
 }

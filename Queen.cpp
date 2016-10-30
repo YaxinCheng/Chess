@@ -11,5 +11,5 @@ const bool Queen::checkLegal( short x,  short y) {
 }
 
 const string Queen::icon() {
-	return colour ? "♕" : "♛";
+	return colour ? "♛" : "♕" ;
 }

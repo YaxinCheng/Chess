@@ -4,6 +4,6 @@ using namespace std;
 
 int main(void) {
 	auto game = Chess::getInstance();
-	game->showBoard();
+	game->start();
 	return 0;
 }

@@ -13,6 +13,8 @@ void Cursor::resetTermios() {
 }
 
 Cursor::Cursor() {
+	x = 0;
+	y = 0;
 }
 
 Cursor::~Cursor() {
@@ -47,4 +49,8 @@ char Cursor::getKey() {
 	}
 	return 'w';// W stands for wrong
 	
+}
+
+void Cursor::clearScreen() {
+	std::cout << std::string(100, '\n');
 }
