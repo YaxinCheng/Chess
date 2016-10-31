@@ -5,6 +5,7 @@
 
 struct Bishop: Piece, DiagonalMove {
 	Bishop( short x,  short y, bool colour);
+	~Bishop();
 	const bool checkLegal( short x,  short y);
 	const string icon();
 };

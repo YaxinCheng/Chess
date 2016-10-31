@@ -3,6 +3,8 @@
 Bishop::Bishop( short x,  short y, bool colour): Piece(x, y, colour), DiagonalMove() {
 }
 
+Bishop::~Bishop() {}
+
 const bool Bishop::checkLegal( short x,  short y) {
 	if (isDiagonal(this->x, this->y, x, y) == false ) {
 		return false;

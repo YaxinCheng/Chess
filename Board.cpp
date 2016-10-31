@@ -66,12 +66,11 @@ void Board<T>::setElement(T* element, const short x, const short y) throw(int) {
 template <class T>
 void Board<T>::moveElement(T* element, const short x, const short y) throw (int) {
 	short X, Y;
-	if (dynamic_cast<Pawn*>(element) != NULL) {
+	if (dynamic_cast<Pawn*>(element) != NULL) {// Pawn specific
 		short nextY = element->getColour() ? element->y - 1 : element->y + 1;
 		Piece* centre = internalArray[nextY][element->x];
 		Piece* left = element->x == 0 ? NULL : internalArray[nextY][element->x - 1];
 		Piece* right = element->x == 7 ? NULL : internalArray[nextY][element->x + 1];
-		cout << centre << " " << left << " " << right << endl;
 		if (dynamic_cast<Pawn*>(element)->checkLegal(x, y, centre, left, right) && !existObstacle(element, x, y)) {
 			X = x;
 			Y = y;
@@ -83,7 +82,9 @@ void Board<T>::moveElement(T* element, const short x, const short y) throw (int)
 		} else {
 			throw -2;
 		}
-	} else {
+	} else if (dynamic_cast<King*>(element) != NULL) {
+
+	} else { // Generic
 		if (element->checkLegal(x, y) && !existObstacle(element, x, y)) {
 			X = x;
 			Y = y;

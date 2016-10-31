@@ -6,6 +6,9 @@ Piece::Piece( short x,  short y, bool colour) {
 	this->colour = colour;
 }
 
+Piece::~Piece() {
+}
+
 bool Piece::getColour() {
 	return this->colour;
 }

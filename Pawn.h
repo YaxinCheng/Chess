@@ -10,7 +10,6 @@ struct Pawn: Piece, StraightMove {
 	~Pawn();
 	const bool checkLegal( short x,  short y);
 	const bool checkLegal( short x, short y, Piece* centre, Piece* left, Piece* right);
-	const bool promotable();
 	const string icon();
 };
 #endif

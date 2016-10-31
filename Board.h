@@ -3,6 +3,8 @@
 #include "Piece.h"
 #include "Pawn.h"
 #include "Queen.h"
+#include "King.h"
+#include "Rook.h"
 #include "StraightMove.h"
 #include "DiagonalMove.h"
 

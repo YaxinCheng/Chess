@@ -5,6 +5,7 @@
 
 struct Rook: Piece, StraightMove {
 	Rook( short x,  short y, bool colour);
+	~Rook();
 	const bool checkLegal( short x,  short y);
 	const string icon();
 };
