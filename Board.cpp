@@ -52,7 +52,12 @@ void Board<T>::setElement(T* element, const short x, const short y) throw(int) {
 		throw -2;
 	}
 	if (internalArray[Y][X] != NULL && element != NULL ) {
-		throw -1;
+		if (internalArray[Y][X]->getColour() != element->getColour()) {
+			delete internalArray[Y][X];
+			internalArray[Y][X] = element;
+		} else {
+			throw -1;
+		}
 	}
 	internalArray[Y][X] = element;
 }
@@ -82,17 +87,16 @@ bool Board<T>::existObstacle(T* element, short destinationX, short destinationY)
 			if (element->x == destinationX) { // Move vertically
 				short beginning = destinationY > element->y ? element->y : destinationY;
 				short ending = destinationY > element->y ? destinationY : element->y;
-				for (short i = beginning; i < ending + 1; i ++) {
-					if (internalArray[i][element->x] != NULL && i != element->y) {
+				for (short i = beginning; i < ending; i ++) {
+					if (internalArray[i][element->x] != NULL && i != element->y && i != destinationY) {
 						return true;
 					}
 				}
 			} else if (element->y == destinationY) { // Move horizontally
 				short beginning = destinationX > element->x ? element->x : destinationX;
 				short ending = destinationX > element->x ? destinationX : element->x;
-				cout << beginning << " " << ending << " " << element->y << endl;
-				for (short i = beginning; i < ending + 1; i ++) {
-					if (internalArray[element->y][i] != NULL && i != element->x) {
+				for (short i = beginning; i < ending; i ++) {
+					if (internalArray[element->y][i] != NULL && i != element->x && i != destinationX) {
 						return true;
 					}
 				}
