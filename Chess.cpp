@@ -36,7 +36,7 @@ void Chess::showBoard() {
 	string info = "";
 	for (int i = 0; i < board->getSize(); i ++) {
 		for (int j = 0; j < board->getSize(); j ++) {
-			if ((*board)[j][i] == NULL) {
+			if ((*board)[i][j] == NULL) {
 				if (j == cursor.x && i == cursor.y ) {
 					info += "[-]";
 				} else {
@@ -44,9 +44,9 @@ void Chess::showBoard() {
 				}
 			} else {
 				if (j == cursor.x && i == cursor.y ) {
-				 	info += "[" + (*board)[j][i]->icon() + " ]";
+				 	info += "[" + (*board)[i][j]->icon() + " ]";
 				} else {
-					info += (*board)[j][i]->icon();
+					info += (*board)[i][j]->icon();
 				}
 			}
 			info += '\t';
@@ -67,12 +67,24 @@ void Chess::start() {
 			case 'r': cursor.x += (cursor.x == 7 ? 0 : 1); break;
 			case 'u': cursor.y -= (cursor.y == 0 ? 0 : 1); break;
 			case 'd': cursor.y += (cursor.y == 7 ? 0 : 1); break;
-			case 's': break; // Space
 			case 'q': cout << "Game Over" << endl; return;
 		}
 		if (input == 'w') {
 			cout << "Wrong key is pressed" << endl;
 			continue;
+		}
+		if (input == 's') { // Space bar
+			if (board->selectedElement == NULL) {
+				cout << cursor.x << " " << cursor.y << endl;
+				board->selectedElement = (*board)[cursor.y][cursor.x];
+				cout << board->selectedElement->x << " " << board->selectedElement->y << endl;
+			} else {
+				try {
+					board->moveElement(board->selectedElement, cursor.x, cursor.y);
+				} catch (int e) {
+					cout << e;
+				}
+			}
 		}
 		cursor.clearScreen();
 		showBoard();

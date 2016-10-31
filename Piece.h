@@ -1,7 +1,5 @@
 #ifndef PIECE_H
 #define PIECE_H
-#include <vector>
-#include <tuple>
 #include <string>
 using namespace std;
 

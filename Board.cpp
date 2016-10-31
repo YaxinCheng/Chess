@@ -5,6 +5,7 @@
 template<class T>
 Board<T>::Board(const int size) {
 	this->size = size;
+	this->selectedElement = NULL;
 	internalArray = new T**[size * size];
 	for (int i = 0; i < size; i ++) {
 		T** temp = new T*[size];
@@ -38,7 +39,7 @@ T** Board<T>::operator[] (int index ) const {
 
 // Set elements to the board
 template <class T>
-void Board<T>::setElement(T* element, const int x, const int y) throw(int) {
+void Board<T>::setElement(T* element, const short x, const short y) throw(int) {
 	int X, Y;
 	if (x == -7 && y == -7) {
 		X = element->x;
@@ -50,14 +51,79 @@ void Board<T>::setElement(T* element, const int x, const int y) throw(int) {
 	if (X < 0 || Y < 0) {
 		throw -2;
 	}
-	if (internalArray[X][Y] != NULL ) {
+	if (internalArray[Y][X] != NULL && element != NULL ) {
 		throw -1;
 	}
-	internalArray[X][Y] = element;
+	internalArray[Y][X] = element;
+}
+
+// Move elements
+template <class T>
+void Board<T>::moveElement(T* element, const short x, const short y) throw (int) {
+	short X, Y;
+	if (element->checkLegal(x, y) && !existObstacle(element, x, y)) {
+		X = x;
+		Y = y;
+	} else {
+		throw -2;
+	}
+	setElement(NULL, element->x, element->y);
+	element->x = X;
+	element->y = Y;
+	setElement(element);
+	selectedElement = NULL;
 }
 
 template <class T>
 bool Board<T>::existObstacle(T* element, short destinationX, short destinationY) {
 	// Check obstacles
+	if (((StraightMove*)element)->isStraight(element->x, element->y, destinationX, destinationY)) {
+		if (element->x == destinationX) { // Move vertically
+			short beginning = destinationY > element->y ? element->y : destinationY;
+			short ending = destinationY > element->y ? destinationY : element->y;
+			for (short i = beginning + 1; i < ending; i ++) {
+				if (internalArray[i][element->x] != NULL) {
+					return true;
+				}
+			}
+		} else if (element->y == destinationY) { // Move horizontally
+			short beginning = destinationX > element->x ? element->x : destinationX;
+			short ending = destinationX > element->x ? destinationX : element->x;
+			for (short i = beginning + 1; i < ending; i ++) {
+				if (internalArray[element->y][i] != NULL) {
+					return true;
+				}
+			}
+		}
+	}
+	if (((DiagonalMove*)element)->isDiagonal(element->x, element->y, destinationX, destinationY)) {
+		if (destinationX > element->x) { // Move right diagonal
+			short deviation = abs(destinationX - element->x);
+			for (short i = 0; i < deviation; i ++) {
+				if (destinationY < element->y) {// Right up
+					if (internalArray[element->y - i][element->x + i] != NULL) {
+						return true;
+					}
+				} else if (destinationY > element->y) {// Right down
+					if (internalArray[element->y + i][element->x + i] != NULL) {
+						return true;
+					}
+				}
+			}
+		} else if (destinationX < element->x) {// Move left diagonal
+			short deviation = abs(destinationX - element->x);
+			for (short i = 0; i < deviation; i ++) { 
+				if (destinationY > element->y) {// Left down
+					if (internalArray[element->y + i][element->x - i] != NULL) {
+						return true;
+					}
+				} else if (destinationY < element->y) { // Left up
+					if (internalArray[element->y - i][element->x - i] != NULL) {
+						return true;
+					}
+				}
+			}
+		} 
+	}
 	return false;
 }

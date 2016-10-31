@@ -7,16 +7,16 @@ const bool Pawn::checkLegal( short x,  short y) {
 	if (isStraight(this->x, this->y, x, y) == false ) {
 		return false;
 	}
-	if (colour == true && y - this->y == 1) {
+	if (colour == true && y - this->y == -1) {
 		return true;
 	}
-	if (colour == true && this->y == 1 && y - this->y == 2) {
+	if (colour == true && this->y == 6 && y - this->y == -2) {
 		return true;
 	}
-	if (colour == false && y - this->y == -1) {
+	if (colour == false && y - this->y == 1) {
 		return true;
 	}
-	if (colour == false && this->y == 6 && y - this->y == -2) {
+	if (colour == false && this->y == 1 && y - this->y == 2) {
 		return true;
 	}
 	return false;
@@ -24,9 +24,9 @@ const bool Pawn::checkLegal( short x,  short y) {
 
 const bool Pawn::promotable() {
 	if (colour == true) {
-		return y == 7;
-	} else {
 		return y == 0;
+	} else {
+		return y == 7;
 	}
 }
 

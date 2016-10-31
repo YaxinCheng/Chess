@@ -1,6 +1,9 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include "Piece.h"
+#include "StraightMove.h"
+#include "DiagonalMove.h"
+
 template <class T>
 struct Board {
 	private:
@@ -9,10 +12,12 @@ struct Board {
 		bool existObstacle(T* element, short destinationX, short destinationY);
 		int size;
 	public:
+		T* selectedElement;
 		Board(const int size);
 		~Board();
 		const int getSize() const;
 		T** operator[] (int index) const;
-		void setElement(T* element, const int x = -7, const int y = -7) throw (int);
+		void setElement(T* element, const short x = -7, const short y = -7) throw (int);
+		void moveElement(T* element, const short x, const short y) throw (int);
 };
 #endif
