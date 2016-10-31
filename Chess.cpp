@@ -38,15 +38,15 @@ void Chess::showBoard() {
 		for (int j = 0; j < board->getSize(); j ++) {
 			if ((*board)[i][j] == NULL) {
 				if (j == cursor.x && i == cursor.y ) {
-					info += "[-]";
+					info += board->selectedElement == NULL ? "[-]" : "(+)";
 				} else {
 					info += "-";
 				}
 			} else {
 				if (j == cursor.x && i == cursor.y ) {
-				 	info += "[" + (*board)[i][j]->icon() + " ]";
+				 	info += board->selectedElement == NULL ? "[" + (*board)[i][j]->icon() + " ]" : "(" + (*board)[i][j]->icon() + " )";
 				} else {
-					info += (*board)[i][j]->icon();
+					info += board->selectedElement == (*board)[i][j] ? "[" + (*board)[i][j]->icon() + " ]" : (*board)[i][j]->icon();
 				}
 			}
 			info += '\t';
@@ -75,15 +75,15 @@ void Chess::start() {
 		}
 		if (input == 's') { // Space bar
 			if (board->selectedElement == NULL) {
-				cout << cursor.x << " " << cursor.y << endl;
 				board->selectedElement = (*board)[cursor.y][cursor.x];
-				cout << board->selectedElement->x << " " << board->selectedElement->y << endl;
-			} else {
+			} else if (cursor.x != board->selectedElement->x || cursor.y != board->selectedElement->y) {
 				try {
 					board->moveElement(board->selectedElement, cursor.x, cursor.y);
 				} catch (int e) {
 					cout << e;
 				}
+			} else {
+				board->selectedElement = NULL;
 			}
 		}
 		cursor.clearScreen();

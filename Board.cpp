@@ -77,53 +77,59 @@ void Board<T>::moveElement(T* element, const short x, const short y) throw (int)
 template <class T>
 bool Board<T>::existObstacle(T* element, short destinationX, short destinationY) {
 	// Check obstacles
-	if (((StraightMove*)element)->isStraight(element->x, element->y, destinationX, destinationY)) {
-		if (element->x == destinationX) { // Move vertically
-			short beginning = destinationY > element->y ? element->y : destinationY;
-			short ending = destinationY > element->y ? destinationY : element->y;
-			for (short i = beginning + 1; i < ending; i ++) {
-				if (internalArray[i][element->x] != NULL) {
-					return true;
+	if (dynamic_cast<StraightMove*>(element) != NULL) {
+		if ((dynamic_cast<StraightMove*>(element))->isStraight(element->x, element->y, destinationX, destinationY)) {
+			if (element->x == destinationX) { // Move vertically
+				short beginning = destinationY > element->y ? element->y : destinationY;
+				short ending = destinationY > element->y ? destinationY : element->y;
+				for (short i = beginning; i < ending + 1; i ++) {
+					if (internalArray[i][element->x] != NULL && i != element->y) {
+						return true;
+					}
 				}
-			}
-		} else if (element->y == destinationY) { // Move horizontally
-			short beginning = destinationX > element->x ? element->x : destinationX;
-			short ending = destinationX > element->x ? destinationX : element->x;
-			for (short i = beginning + 1; i < ending; i ++) {
-				if (internalArray[element->y][i] != NULL) {
-					return true;
+			} else if (element->y == destinationY) { // Move horizontally
+				short beginning = destinationX > element->x ? element->x : destinationX;
+				short ending = destinationX > element->x ? destinationX : element->x;
+				cout << beginning << " " << ending << " " << element->y << endl;
+				for (short i = beginning; i < ending + 1; i ++) {
+					if (internalArray[element->y][i] != NULL && i != element->x) {
+						return true;
+					}
 				}
 			}
 		}
-	}
-	if (((DiagonalMove*)element)->isDiagonal(element->x, element->y, destinationX, destinationY)) {
-		if (destinationX > element->x) { // Move right diagonal
-			short deviation = abs(destinationX - element->x);
-			for (short i = 0; i < deviation; i ++) {
-				if (destinationY < element->y) {// Right up
-					if (internalArray[element->y - i][element->x + i] != NULL) {
-						return true;
-					}
-				} else if (destinationY > element->y) {// Right down
-					if (internalArray[element->y + i][element->x + i] != NULL) {
-						return true;
-					}
-				}
-			}
-		} else if (destinationX < element->x) {// Move left diagonal
-			short deviation = abs(destinationX - element->x);
-			for (short i = 0; i < deviation; i ++) { 
-				if (destinationY > element->y) {// Left down
-					if (internalArray[element->y + i][element->x - i] != NULL) {
-						return true;
-					}
-				} else if (destinationY < element->y) { // Left up
-					if (internalArray[element->y - i][element->x - i] != NULL) {
-						return true;
+	}	
+	if (dynamic_cast<DiagonalMove*>(element) != NULL) {
+		if ((dynamic_cast<DiagonalMove*>(element))->isDiagonal(element->x, element->y, destinationX, destinationY)) {
+			if (destinationX > element->x) { // Move right diagonal
+				short deviation = abs(destinationX - element->x);
+				for (short i = 1; i < deviation; i ++) {
+					if (destinationY < element->y) {// Right up
+						if (internalArray[element->y - i][element->x + i] != NULL) {
+							return true;
+						}
+					} else if (destinationY > element->y) {// Right down
+						if (internalArray[element->y + i][element->x + i] != NULL) {
+							return true;
+						}
 					}
 				}
-			}
-		} 
+			} else if (destinationX < element->x) {// Move left diagonal
+				short deviation = abs(destinationX - element->x);
+				for (short i = 1; i < deviation; i ++) { 
+					if (destinationY > element->y) {// Left down
+						if (internalArray[element->y + i][element->x - i] != NULL) {
+							return true;
+						}
+					} else if (destinationY < element->y) { // Left up
+						if (internalArray[element->y - i][element->x - i] != NULL) {
+							return true;
+						}
+					}
+				}
+			} 
+		}
 	}
-	return false;
+	T* destination = internalArray[destinationY][destinationX];
+	return destination != NULL && destination->getColour() == element->getColour();
 }
