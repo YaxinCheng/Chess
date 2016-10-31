@@ -16,10 +16,10 @@ class Chess {
 private:
 	Board<Piece> *board;
 	Cursor cursor;
+	void showBoard();
 	Chess();
 public:
 	static Chess* getInstance();
-	void showBoard();
 	void start();
 };
 #endif

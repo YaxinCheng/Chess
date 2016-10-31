@@ -55,3 +55,9 @@ void Board<T>::setElement(T* element, const int x, const int y) throw(int) {
 	}
 	internalArray[X][Y] = element;
 }
+
+template <class T>
+bool Board<T>::existObstacle(T* element, short destinationX, short destinationY) {
+	// Check obstacles
+	return false;
+}

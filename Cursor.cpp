@@ -36,7 +36,10 @@ char Cursor::getKey() {
 	int firstKey = getch();
 	if (firstKey == 'q') {
 		return 'q';// Q stands for quit
-	} else if (firstKey == 27) {
+	} else if (firstKey == 32) {
+		return 's';// S stands for space
+	}
+	else if (firstKey == 27) {
 		getch();
 		int thirdKey = getch();
 		switch (thirdKey) {

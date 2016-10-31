@@ -6,6 +6,7 @@ struct Board {
 	private:
 		static_assert((std::is_base_of<Piece, T>::value), "T is not a piece class");
 		T*** internalArray;
+		bool existObstacle(T* element, short destinationX, short destinationY);
 		int size;
 	public:
 		Board(const int size);

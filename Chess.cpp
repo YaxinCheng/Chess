@@ -59,18 +59,23 @@ void Chess::showBoard() {
 void Chess::start() {
 	char input;
 	cursor.clearScreen();
+	showBoard();
 	do {
-		showBoard();
 		input = cursor.getKey();
 		switch (input) {
 			case 'l': cursor.x -= (cursor.x == 0 ? 0 : 1); break;
 			case 'r': cursor.x += (cursor.x == 7 ? 0 : 1); break;
 			case 'u': cursor.y -= (cursor.y == 0 ? 0 : 1); break;
 			case 'd': cursor.y += (cursor.y == 7 ? 0 : 1); break;
+			case 's': break; // Space
+			case 'q': cout << "Game Over" << endl; return;
 		}
-		if (input != 'q') {
-			cursor.clearScreen();
+		if (input == 'w') {
+			cout << "Wrong key is pressed" << endl;
+			continue;
 		}
+		cursor.clearScreen();
+		showBoard();
 	} while (input != 'q');
-	cout << "Game Over" << endl;
+	
 }
