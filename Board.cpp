@@ -66,12 +66,31 @@ void Board<T>::setElement(T* element, const short x, const short y) throw(int) {
 template <class T>
 void Board<T>::moveElement(T* element, const short x, const short y) throw (int) {
 	short X, Y;
-	if (element->checkLegal(x, y) && !existObstacle(element, x, y)) {
-		X = x;
-		Y = y;
+	if (dynamic_cast<Pawn*>(element) != NULL) {
+		short nextY = element->getColour() ? element->y - 1 : element->y + 1;
+		Piece* centre = internalArray[nextY][element->x];
+		Piece* left = element->x == 0 ? NULL : internalArray[nextY][element->x - 1];
+		Piece* right = element->x == 7 ? NULL : internalArray[nextY][element->x + 1];
+		cout << centre << " " << left << " " << right << endl;
+		if (dynamic_cast<Pawn*>(element)->checkLegal(x, y, centre, left, right) && !existObstacle(element, x, y)) {
+			X = x;
+			Y = y;
+			if ((element->getColour() && Y == 0) || (!element->getColour() && Y == 7)) {
+				Queen* queen = new Queen(element->x, element->y, element->getColour());
+				delete element;
+				element = queen;
+			}
+		} else {
+			throw -2;
+		}
 	} else {
-		throw -2;
-	}
+		if (element->checkLegal(x, y) && !existObstacle(element, x, y)) {
+			X = x;
+			Y = y;
+		} else {
+			throw -2;
+		}
+	}	
 	setElement(NULL, element->x, element->y);
 	element->x = X;
 	element->y = Y;

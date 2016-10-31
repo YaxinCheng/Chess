@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include "Piece.h"
+#include "Pawn.h"
+#include "Queen.h"
 #include "StraightMove.h"
 #include "DiagonalMove.h"
 
