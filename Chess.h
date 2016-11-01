@@ -25,7 +25,7 @@ public:
 	static Chess* getInstance();// Get instance of the chess
 	~Chess();
 	void start();// Game start
-	void moved();// Observer function: Chess is moved
+	void moved(Piece* piece);// Observer function: Chess is moved
 	void win(bool colour);// Observer function: Player wins
 	void tie();// Tie condition
 };

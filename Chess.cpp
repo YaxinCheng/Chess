@@ -104,7 +104,8 @@ void Chess::start() {// Starts game
 	} while (goingOn);// If game is not ongoing
 }
 
-void Chess::moved() {
+void Chess::moved(Piece* piece) {
+	piece->stepCounter += 1;
 	stepCounter += 1;// Add move counter
 	if (stepCounter >= 2000) {// When there are more than 2000 moves, count as a tie
 		tie();

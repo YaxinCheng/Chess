@@ -102,7 +102,7 @@ void Board<T>::moveElement(T* element, const short x, const short y) throw (int)
 	element->y = Y;
 	setElement(element);// Add the new piece to the board
 	selectedElement = NULL;// One move finished, the cancel the selection mode
-	observer->moved();// Tell observer, a piece is moved
+	observer->moved(element);// Tell observer, a piece is moved
 }
 
 template <class T>

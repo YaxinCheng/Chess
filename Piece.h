@@ -7,6 +7,7 @@ struct Piece {
 protected:
 	bool colour; // False for White, True for black
 public:
+	int stepCounter;
 	short x, y;// X Y coordinates of the piece
  	Piece( short x,  short y, bool colour) ;// Constructor accepting x, y, and a colour
  	virtual ~Piece();// Destructor
