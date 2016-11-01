@@ -20,6 +20,11 @@ Board<T>::Board(const int size) {
 template<class T>
 Board<T>::~Board() {
 	for (int i = 0; i < this->size; i ++) {
+		for (int j = 0; j < this->size; j ++) {
+			if (internalArray[i][j] != NULL) {
+				delete internalArray[i][j];
+			}
+		}
 		delete internalArray[i];
 	}
 	delete internalArray;
@@ -53,6 +58,9 @@ void Board<T>::setElement(T* element, const short x, const short y) throw(int) {
 	}
 	if (internalArray[Y][X] != NULL && element != NULL ) {
 		if (internalArray[Y][X]->getColour() != element->getColour()) {
+			if (dynamic_cast<King*>(internalArray[Y][X]) != NULL) {
+				observer->win(!internalArray[Y][X]->getColour());
+			}
 			delete internalArray[Y][X];
 			internalArray[Y][X] = element;
 		} else {
@@ -82,8 +90,6 @@ void Board<T>::moveElement(T* element, const short x, const short y) throw (int)
 		} else {
 			throw -2;
 		}
-	} else if (dynamic_cast<King*>(element) != NULL) {
-
 	} else { // Generic
 		if (element->checkLegal(x, y) && !existObstacle(element, x, y)) {
 			X = x;
@@ -97,6 +103,7 @@ void Board<T>::moveElement(T* element, const short x, const short y) throw (int)
 	element->y = Y;
 	setElement(element);
 	selectedElement = NULL;
+	observer->moved();
 }
 
 template <class T>
@@ -156,4 +163,9 @@ bool Board<T>::existObstacle(T* element, short destinationX, short destinationY)
 	}
 	T* destination = internalArray[destinationY][destinationX];
 	return destination != NULL && destination->getColour() == element->getColour();
+}
+
+template <class T>
+void Board<T>::setObserver(GameProcessObserver* observer) {
+	this->observer = observer;
 }

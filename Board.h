@@ -7,6 +7,7 @@
 #include "Rook.h"
 #include "StraightMove.h"
 #include "DiagonalMove.h"
+#include "GameProcessObserver.h"
 
 template <class T>
 struct Board {
@@ -14,6 +15,7 @@ struct Board {
 		static_assert((std::is_base_of<Piece, T>::value), "T is not a piece class");
 		T*** internalArray;
 		bool existObstacle(T* element, short destinationX, short destinationY);
+		GameProcessObserver* observer;
 		int size;
 	public:
 		T* selectedElement;
@@ -23,5 +25,6 @@ struct Board {
 		T** operator[] (int index) const;
 		void setElement(T* element, const short x = -7, const short y = -7) throw (int);
 		void moveElement(T* element, const short x, const short y) throw (int);
+		void setObserver(GameProcessObserver* observer);
 };
 #endif

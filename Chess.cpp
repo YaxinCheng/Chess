@@ -1,7 +1,10 @@
 #include "Chess.h"
 
 Chess::Chess() {
+	stepCounter = 0;
+	goingOn = true;
 	board = new Board<Piece>(8);
+	board->setObserver(this);
 	// Set pawns
 	for (short i = 0; i < 16; i ++ ) {
 		if (i < 8) {
@@ -60,6 +63,7 @@ void Chess::start() {
 	char input;
 	cursor.clearScreen();
 	showBoard();
+	cout << "White\'s turn" << endl;
 	do {
 		input = cursor.getKey();
 		switch (input) {
@@ -75,7 +79,9 @@ void Chess::start() {
 		}
 		if (input == 's') { // Space bar
 			if (board->selectedElement == NULL) {
-				board->selectedElement = (*board)[cursor.y][cursor.x];
+				if ((*board)[cursor.y][cursor.x]->getColour() == (stepCounter % 2 != 0)) {
+					board->selectedElement = (*board)[cursor.y][cursor.x];
+				}
 			} else if (cursor.x != board->selectedElement->x || cursor.y != board->selectedElement->y) {
 				try {
 					board->moveElement(board->selectedElement, cursor.x, cursor.y);
@@ -86,8 +92,27 @@ void Chess::start() {
 				board->selectedElement = NULL;
 			}
 		}
-		cursor.clearScreen();
-		showBoard();
-	} while (input != 'q');
-	
+		if (goingOn) {
+			cursor.clearScreen();
+			showBoard();
+			cout << (stepCounter % 2 != 0 ? "Black" : "White") << "\'s turn" << endl;
+		}	
+	} while (input != 'q' && goingOn);
+}
+
+void Chess::moved() {
+	stepCounter += 1;
+	if (stepCounter >= 2000) {
+		tie();
+	}
+}
+
+void Chess::win(bool colour) {
+	string winner = colour ? "Black" : "White";
+	cout << winner << " wins!" << endl;
+	goingOn = false;
+}
+
+void Chess::tie() {
+	cout << "Game if tie!" << endl;
 }

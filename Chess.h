@@ -10,16 +10,23 @@
 #include "Knight.h"
 #include "Queen.h"
 #include "Rook.h"
+#include "GameProcessObserver.h"
 using namespace std;
 
-class Chess {
+class Chess: GameProcessObserver {
 private:
 	Board<Piece> *board;
 	Cursor cursor;
 	void showBoard();
+	static void resetBoard();
 	Chess();
+	long stepCounter;
+	bool goingOn;
 public:
 	static Chess* getInstance();
 	void start();
+	void moved();
+	void win(bool colour);
+	void tie();
 };
 #endif
