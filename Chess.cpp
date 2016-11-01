@@ -3,8 +3,8 @@
 Chess::Chess() {
 	stepCounter = 0;
 	goingOn = true;
-	board = new Board<Piece>(8);
-	board->setObserver(this);
+	board = new Board<Piece>(8);// Initialize an 8 x 8 board
+	board->setObserver(this);// Set observer
 	// Set pawns
 	for (short i = 0; i < 16; i ++ ) {
 		if (i < 8) {
@@ -30,6 +30,10 @@ Chess::Chess() {
 	for (auto *rook : rooks) { board-> setElement(rook); }
 }
 
+Chess::~Chess() {
+	delete board;// Delete board
+}
+
 Chess* Chess::getInstance() {
 	static Chess *instance = new Chess();
 	return instance;
@@ -38,17 +42,17 @@ Chess* Chess::getInstance() {
 void Chess::showBoard() {
 	string info = "";
 	for (int i = 0; i < board->getSize(); i ++) {
-		for (int j = 0; j < board->getSize(); j ++) {
-			if ((*board)[i][j] == NULL) {
-				if (j == cursor.x && i == cursor.y ) {
-					info += board->selectedElement == NULL ? "[-]" : "(+)";
-				} else {
+		for (int j = 0; j < board->getSize(); j ++) {// Loop through the board
+			if ((*board)[i][j] == NULL) {// If no piece is at the position
+				if (j == cursor.x && i == cursor.y ) {// If the cursor is on the position
+					info += board->selectedElement == NULL ? "[-]" : "(+)";// Print empty with the cursor with different mode
+				} else {// If cursor not on
 					info += "-";
 				}
-			} else {
-				if (j == cursor.x && i == cursor.y ) {
-				 	info += board->selectedElement == NULL ? "[" + (*board)[i][j]->icon() + " ]" : "(" + (*board)[i][j]->icon() + " )";
-				} else {
+			} else {// Piece exists
+				if (j == cursor.x && i == cursor.y ) {// If cursor is on the position
+				 	info += board->selectedElement == NULL ? "[" + (*board)[i][j]->icon() + " ]" : "(" + (*board)[i][j]->icon() + " )";// Print piece with cursor
+				} else {// Cursor not on
 					info += board->selectedElement == (*board)[i][j] ? "[" + (*board)[i][j]->icon() + " ]" : (*board)[i][j]->icon();
 				}
 			}
@@ -59,60 +63,61 @@ void Chess::showBoard() {
 	cout << '\n' << info << endl;
 }
 
-void Chess::start() {
-	char input;
-	cursor.clearScreen();
-	showBoard();
-	cout << "White\'s turn" << endl;
+void Chess::start() {// Starts game
+	char input;// Input from keyboard
+	cursor.clearScreen();// Clear screen
+	showBoard();// Show chess board
+	cout << "White\'s turn" << endl;// White goes first
 	do {
-		input = cursor.getKey();
+		input = cursor.getKey();// Get one key from the keyboard
 		switch (input) {
-			case 'l': cursor.x -= (cursor.x == 0 ? 0 : 1); break;
-			case 'r': cursor.x += (cursor.x == 7 ? 0 : 1); break;
-			case 'u': cursor.y -= (cursor.y == 0 ? 0 : 1); break;
-			case 'd': cursor.y += (cursor.y == 7 ? 0 : 1); break;
-			case 'q': cout << "Game Over" << endl; return;
+			case 'l': cursor.x -= (cursor.x == 0 ? 0 : 1); break;// Go left
+			case 'r': cursor.x += (cursor.x == 7 ? 0 : 1); break;// Go right
+			case 'u': cursor.y -= (cursor.y == 0 ? 0 : 1); break;// Go up
+			case 'd': cursor.y += (cursor.y == 7 ? 0 : 1); break;// Go down
+			case 'q': cout << "Game Over" << endl; return;// Quit game
 		}
-		if (input == 'w') {
-			cout << "Wrong key is pressed" << endl;
-			continue;
+		if (input == 'w') {// Wrong input
+			cout << "Wrong key is pressed" << endl;// Show information
+			continue;// Keep looping to skip clearing of screen
 		}
 		if (input == 's') { // Space bar
-			if (board->selectedElement == NULL) {
-				if ((*board)[cursor.y][cursor.x]->getColour() == (stepCounter % 2 != 0)) {
-					board->selectedElement = (*board)[cursor.y][cursor.x];
+			if (board->selectedElement == NULL) {// If no piece is selected
+				if ((*board)[cursor.y][cursor.x]->getColour() == (stepCounter % 2 != 0)) {// Can only select piece with one colour at each turn
+					board->selectedElement = (*board)[cursor.y][cursor.x];// Set pointer
 				}
-			} else if (cursor.x != board->selectedElement->x || cursor.y != board->selectedElement->y) {
+			} else if (cursor.x != board->selectedElement->x || cursor.y != board->selectedElement->y) {// Cursor is not on the selected piece
 				try {
-					board->moveElement(board->selectedElement, cursor.x, cursor.y);
-				} catch (int e) {
+					board->moveElement(board->selectedElement, cursor.x, cursor.y);// Move piece
+				} catch (int e) {// Catch exceptions
 					cout << e;
 				}
-			} else {
-				board->selectedElement = NULL;
+			} else {// If cursor is on the selected piece
+				board->selectedElement = NULL;// Cacel selection
 			}
 		}
-		if (goingOn) {
-			cursor.clearScreen();
-			showBoard();
-			cout << (stepCounter % 2 != 0 ? "Black" : "White") << "\'s turn" << endl;
+		if (goingOn) {// If game is ongoing
+			cursor.clearScreen();// Clear screen
+			showBoard();// show refreshed chess board
+			cout << (stepCounter % 2 != 0 ? "Black" : "White") << "\'s turn" << endl;// Show information about who's round
 		}	
-	} while (input != 'q' && goingOn);
+	} while (goingOn);// If game is not ongoing
 }
 
 void Chess::moved() {
-	stepCounter += 1;
-	if (stepCounter >= 2000) {
+	stepCounter += 1;// Add move counter
+	if (stepCounter >= 2000) {// When there are more than 2000 moves, count as a tie
 		tie();
 	}
 }
 
 void Chess::win(bool colour) {
 	string winner = colour ? "Black" : "White";
-	cout << winner << " wins!" << endl;
-	goingOn = false;
+	cout << winner << " wins!" << endl;// Show winning information
+	goingOn = false;// End the game
 }
 
 void Chess::tie() {
-	cout << "Game if tie!" << endl;
+	cout << "Game is tie!" << endl;// Show tie information
+	goingOn = false;// End the game
 }

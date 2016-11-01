@@ -13,20 +13,20 @@
 #include "GameProcessObserver.h"
 using namespace std;
 
-class Chess: GameProcessObserver {
+class Chess: GameProcessObserver {// Chess game main program
 private:
-	Board<Piece> *board;
-	Cursor cursor;
-	void showBoard();
-	static void resetBoard();
-	Chess();
-	long stepCounter;
-	bool goingOn;
+	Board<Piece> *board;// Chess board
+	Cursor cursor;// Game controller
+	void showBoard();// Show chess board
+	Chess();// Constructor, but the chess should be a singleton
+	long stepCounter;// Coun steps, to decide who's turn this is and tie condition
+	bool goingOn;// Game status is on going or not
 public:
-	static Chess* getInstance();
-	void start();
-	void moved();
-	void win(bool colour);
-	void tie();
+	static Chess* getInstance();// Get instance of the chess
+	~Chess();
+	void start();// Game start
+	void moved();// Observer function: Chess is moved
+	void win(bool colour);// Observer function: Player wins
+	void tie();// Tie condition
 };
 #endif
