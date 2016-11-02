@@ -12,6 +12,7 @@
 #include "Rook.h"
 #include "GameProcessObserver.h"
 using namespace std;
+using namespace chessGame;
 
 class Chess: GameProcessObserver {// Chess game main program
 private:

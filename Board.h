@@ -9,6 +9,8 @@
 #include "DiagonalMove.h"
 #include "GameProcessObserver.h"
 
+using namespace chessGame;
+
 template <class T>
 struct Board {
 	private:

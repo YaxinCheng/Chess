@@ -57,8 +57,8 @@ void Board<T>::setElement(T* element, const short x, const short y) throw(int) {
 		throw -2;// -2 : Illegal location
 	}
 	if (internalArray[Y][X] != NULL && element != NULL ) {// If X Y coordinate exists a piece and we are not cleaning that by NULL 
-		if (internalArray[Y][X]->getColour() != element->getColour()) {// If the colour differs, it's one piece eating another piece
-			if (dynamic_cast<King*>(internalArray[Y][X]) != NULL) {// If a king is killed
+		if (internalArray[Y][X]->getColour() != element->getColour()) {// If the colour differs, it's one piece capturing another piece
+			if (dynamic_cast<King*>(internalArray[Y][X]) != NULL) {// If a king is captured
 				observer->win(!internalArray[Y][X]->getColour());// Tell observer game wins
 			}
 			delete internalArray[Y][X];// Delete this piece
