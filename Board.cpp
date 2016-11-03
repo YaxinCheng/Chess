@@ -107,7 +107,6 @@ void Board<T>::moveKing(T* element, const short x, const short y, short &X, shor
 template <class T>
 void Board<T>::moveElement(T* element, const short x, const short y, bool countStep) throw (int) {
 	short X, Y;
-	cout << x << " " << y << endl;
 	if (dynamic_cast<Pawn*>(element) != NULL) {// Pawn specific
 		movePawn(&element, x, y, X, Y);
 	} else if (dynamic_cast<King*>(element) != NULL && element->stepCounter == 0 && (x == 1 || x == 6)) {
