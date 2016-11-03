@@ -6,10 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct King: Piece, StraightMove, DiagonalMove {
-	King(short x, short y, bool colour);
-	~King();
-	const bool checkLegal(short x, short y);
-	const string icon();
-};
+using namespace chessGame;
+namespace chessGame {
+	struct King: Piece, StraightMove, DiagonalMove {
+		King(short x, short y, bool colour);
+		~King();
+		const bool checkLegal(short x, short y);
+		const string icon();
+	};
+}
 #endif

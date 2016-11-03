@@ -4,9 +4,12 @@
 #include "StraightMove.h"
 #include "DiagonalMove.h"
 
-struct Queen: Piece, StraightMove, DiagonalMove {
-	Queen( short x,  short y, bool colour);
-	const bool checkLegal( short x,  short y);
-	const string icon();
-};
+using namespace chessGame;
+namespace chessGame {
+	struct Queen: Piece, StraightMove, DiagonalMove {
+		Queen( short x,  short y, bool colour);
+		const bool checkLegal( short x,  short y);
+		const string icon();
+	};
+}
 #endif

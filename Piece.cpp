@@ -1,5 +1,6 @@
 #include "Piece.h"
 
+using namespace chessGame;
 Piece::Piece( short x,  short y, bool colour) {
 	this->x = x;
 	this->y = y;
