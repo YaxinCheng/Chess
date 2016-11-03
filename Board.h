@@ -20,7 +20,7 @@ struct Board {
 		GameProcessObserver* observer;// Observer class, send game processing information to the observer
 		int size;// Board size
 		void movePawn(T** element, const short x, const short y, short &X, short &Y) throw(int);// Pawn is special, so this function is for moving pawn
-		void moveKing(T* element, const short x, const short y, short &X, short &Y) throw(int);// Castling for king and rook
+		void Castling(T* element, const short x, const short y, short &X, short &Y) throw(int);// Castling for king and rook
 	public:
 		T* selectedElement;// Selected element on the board
 		Board(const int size);//Constructor with a size

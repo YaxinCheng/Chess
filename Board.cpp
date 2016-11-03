@@ -73,9 +73,25 @@ template <class T>
 void Board<T>::movePawn(T** element, const short x, const short y, short& X, short& Y) throw (int) {
 	short nextY = (*element)->getColour() ? (*element)->y - 1 : (*element)->y + 1;// Check the y for next step
 	Piece* centre = internalArray[nextY][(*element)->x];// Centre piece of the next y
-	Piece* left = (*element)->x == 0 ? NULL : internalArray[nextY][(*element)->x - 1];// Left piece for the next y
-	Piece* right = (*element)->x == 7 ? NULL : internalArray[nextY][(*element)->x + 1];// Right piece for the next y
-	if (dynamic_cast<Pawn*>(*element)->checkLegal(x, y, centre, left, right) && !existObstacle((*element), x, y)) {// Check legal and no obstacle
+	Piece* leftFront = (*element)->x == 0 ? NULL : internalArray[nextY][(*element)->x - 1];// Left front piece for the next y
+	Piece* rightFront = (*element)->x == 7 ? NULL : internalArray[nextY][(*element)->x + 1];// Right front piece for the next y
+	Piece* left = internalArray[(*element)->y][(*element)->x - 1];// Left piece 
+	Piece* right = internalArray[(*element)->y][(*element)->x + 1];// Right piece
+	bool legalMove = false;
+	try {
+		legalMove = dynamic_cast<Pawn*>(*element)->checkLegal(x, y, centre, leftFront, rightFront, left, right);// May have en passe
+	} catch (int e) {
+		if (e == 1) {// Left en passe
+			legalMove = true;// Allow moves
+			setElement(NULL, left->x , left->y); // Delete the left pawn
+			delete left;
+		} else if (e == 2) {// Right en passe
+			legalMove = true;// Allow moves
+			setElement(NULL, right->x, right->y);// Delete the right pawn
+			delete right;
+		}
+	}
+	if (legalMove && !existObstacle((*element), x, y)) {// Check legal and no obstacle
 		X = x;
 		Y = y;
 		if (((*element)->getColour() && Y == 0) || (!(*element)->getColour() && Y == 7)) {// Reaches the bottom of the board
@@ -89,7 +105,7 @@ void Board<T>::movePawn(T** element, const short x, const short y, short& X, sho
 }
 
 template <class T>
-void Board<T>::moveKing(T* element, const short x, const short y, short &X, short &Y) throw (int) {
+void Board<T>::Castling(T* element, const short x, const short y, short &X, short &Y) throw (int) {
 	short kingY = element->y;
 	Piece* leftRook = internalArray[kingY][0];// Get two rooks
 	Piece* rightRook = internalArray[kingY][7];
@@ -110,7 +126,7 @@ void Board<T>::moveElement(T* element, const short x, const short y, bool countS
 	if (dynamic_cast<Pawn*>(element) != NULL) {// Pawn specific
 		movePawn(&element, x, y, X, Y);
 	} else if (dynamic_cast<King*>(element) != NULL && element->stepCounter == 0 && (x == 1 || x == 6)) {
-		moveKing(element, x, y, X, Y);
+		Castling(element, x, y, X, Y);
 	} else { // Generic
 		if (element->checkLegal(x, y) && !existObstacle(element, x, y)) {// If legal and no obstacle
 			X = x;
