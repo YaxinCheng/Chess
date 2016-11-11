@@ -8,6 +8,7 @@ using namespace chessGame;
 namespace chessGame {
 	struct Knight: Piece {
 		Knight( short x,  short y, bool colour);
+		~Knight();
 		const bool checkLegal( short x,  short y);
 		const string icon();
 	};

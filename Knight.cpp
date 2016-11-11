@@ -3,6 +3,8 @@
 Knight::Knight( short x,  short y, bool colour): Piece(x, y, colour) {
 }
 
+Knight::~Knight() {}
+
 const bool Knight::checkLegal( short x,  short y) {
 	if (x < 0 || x > 7 || y < 0 || y > 7) {// Only move in the range of the board
 		return false;
