@@ -3,6 +3,8 @@
 Queen::Queen( short x,  short y, bool colour): Piece(x, y, colour), StraightMove(), DiagonalMove() {
 }
 
+Queen::~Queen() {}
+
 const bool Queen::checkLegal( short x,  short y) {
 	if (isStraight(this->x, this->y, x, y) == false && isDiagonal(this->x, this->y, x, y) == false ) {
 		return false;
