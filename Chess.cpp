@@ -83,6 +83,9 @@ void Chess::start() {// Starts game
 		}
 		if (input == 's') { // Space bar
 			if (board->selectedElement == NULL) {// If no piece is selected
+				if ((*board)[cursor.y][cursor.x] == NULL) {
+					continue;
+				}
 				if ((*board)[cursor.y][cursor.x]->getColour() == (stepCounter % 2 != 0)) {// Can only select piece with one colour at each turn
 					board->selectedElement = (*board)[cursor.y][cursor.x];// Set pointer
 				}
