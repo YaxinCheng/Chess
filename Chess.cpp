@@ -47,13 +47,13 @@ void Chess::showBoard() {
 				if (j == cursor.x && i == cursor.y ) {// If the cursor is on the position
 					info += board->selectedElement == NULL ? "[-]" : "(+)";// Print empty with the cursor with different mode
 				} else {// If cursor not on
-					info += "-";
+					info += " - ";
 				}
 			} else {// Piece exists
 				if (j == cursor.x && i == cursor.y ) {// If cursor is on the position
 				 	info += board->selectedElement == NULL ? "[" + (*board)[i][j]->icon() + " ]" : "(" + (*board)[i][j]->icon() + " )";// Print piece with cursor
 				} else {// Cursor not on
-					info += board->selectedElement == (*board)[i][j] ? "[" + (*board)[i][j]->icon() + " ]" : (*board)[i][j]->icon();
+					info += board->selectedElement == (*board)[i][j] ? "[" + (*board)[i][j]->icon() + " ]" : " " + (*board)[i][j]->icon() + " ";
 				}
 			}
 			info += '\t';
@@ -65,7 +65,7 @@ void Chess::showBoard() {
 
 void Chess::start() {// Starts game
 	char input;// Input from keyboard
-	cursor.clearScreen();// Clear screen
+	//cursor.clearScreen();// Clear screen
 	showBoard();// Show chess board
 	cout << "White\'s turn" << endl;// White goes first
 	do {

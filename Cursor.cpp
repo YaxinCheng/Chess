@@ -55,5 +55,8 @@ char Cursor::getKey() {
 }
 
 void Cursor::clearScreen() {
-	std::cout << std::string(100, '\n');
+    for (int i = 0; i < 11; i += 1) {
+        std::cout << "\033[K\033[A";
+    }
+    std::cout << '\r';
 }
